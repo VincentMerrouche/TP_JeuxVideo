@@ -27,18 +27,10 @@ public class Player_controller : MonoBehaviour
         SetCountText(); //a besoin d'etre mis a jour
         winTextObject.SetActive(false);
         lostTextObject.SetActive(false);
+        Lost =false;
         
     }
 
-// //OnMove -> fonction de InputSystem de Unity
-//     void OnMove(InputValue mouvementValue)
-//     {
-//         //movement vector = prend le movement valeur déplacement sphère
-//         Vector2 mouvementVector =mouvementValue.Get<Vector2>();
-//         mouvementx= mouvementVector.x;
-//         mouvementy= mouvementVector.y;
-
-//     } 
     void SetCountText()
     {
         countText.text= "score:" +compteur.ToString();
@@ -46,6 +38,7 @@ public class Player_controller : MonoBehaviour
         {
             winTextObject.SetActive(true);
         }
+        if (Lost) lostTextObject.SetActive(true);
         
     }
 
@@ -57,18 +50,15 @@ public class Player_controller : MonoBehaviour
             compteur+=1;
             SetCountText();
         }
-            if (other.gameObject.CompareTag("Lost")) 
+        if (other.gameObject.CompareTag("Lost")) 
         {
             Lost=true;
-            lostTextObject.SetActive(true);
+            SetCountText();
+            
         }
-        if (other.gameObject.CompareTag("Obstacles")) 
-        {
-        Vector3 direction = rb.transform.position - transform.position;
-        rb.AddForce(direction.normalized*force); 
-        }
-        }
+        
     }
+}
 
 
 
