@@ -9,11 +9,14 @@ public class Player_controller : MonoBehaviour
     // public float speed =0.0f;
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
+    public GameObject lostTextObject;
     private Rigidbody rb; //Créer une référence du rigid body a accéder
     // private float mouvementx;
     // private float mouvementy;
     private int compteur;
     public float force;
+    bool Lost;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +26,8 @@ public class Player_controller : MonoBehaviour
         compteur=0;
         SetCountText(); //a besoin d'etre mis a jour
         winTextObject.SetActive(false);
+        lostTextObject.SetActive(false);
+        
     }
 
 // //OnMove -> fonction de InputSystem de Unity
@@ -37,7 +42,7 @@ public class Player_controller : MonoBehaviour
     void SetCountText()
     {
         countText.text= "score:" +compteur.ToString();
-        if (compteur>=6)
+        if (compteur>=8)
         {
             winTextObject.SetActive(true);
         }
@@ -52,8 +57,18 @@ public class Player_controller : MonoBehaviour
             compteur+=1;
             SetCountText();
         }
-
+            if (other.gameObject.CompareTag("Lost")) 
+        {
+            Lost=true;
+            lostTextObject.SetActive(true);
+        }
+        if (other.gameObject.CompareTag("Obstacles")) 
+        {
+        Vector3 direction = rb.transform.position - transform.position;
+        rb.AddForce(direction.normalized*force); 
+        }
+        }
     }
-}
+
 
 
